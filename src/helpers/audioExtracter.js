@@ -1,7 +1,5 @@
-const Path = require('path')
-const extractAudio = require('ffmpeg-extract-audio')
-
-//omg
+const Path = require('path');
+const extractAudio = require('ffmpeg-extract-audio');
 
 async function getAudio(sourcePath) {
     const path = Path.resolve(__dirname, '..', '..', 'media', 'audio', `${new Date().getTime()}.mp3`)
