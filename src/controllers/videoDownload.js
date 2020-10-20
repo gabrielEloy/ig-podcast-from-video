@@ -1,6 +1,7 @@
 const download = require('../helpers/fileDownloader');
 const extractAudio = require('../helpers/audioExtracter');
 const trimAudio = require('../helpers/trimAudio');
+const  uploadToS3 = require('../helpers/uploadFileToS3');
 
 const { rename, deleteFile } = require('../helpers/updateFile')
 
@@ -17,8 +18,9 @@ async function videoDownload(req, res) {
             await deleteFile(audioPath)
             await rename(editedAudioPath)
         }
-
-        res.send({ success: videoPath })
+        
+        const teste = await uploadToS3(audioPath);
+        res.send({teste})
     } catch (err) {
         res.send({ err })
     }
