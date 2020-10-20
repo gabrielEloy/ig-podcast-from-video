@@ -6,7 +6,7 @@ async function uploadToS3(filePath){
     console.log({filePath})
     
     const s3 = new AWS.S3();
-    const uploadParams = {Bucket: 'ig-podcasts'};
+    const uploadParams = {Bucket: 'ig-podcasts', ACL:'public-read'};
 
     const fileStream = fs.createReadStream(filePath);
     
