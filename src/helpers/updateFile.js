@@ -13,7 +13,7 @@ async function rename(originalPath) {
     new Promise((resolve, reject) => {
         fs.rename(originalPath, newPath, err => {
             if (err) reject(err);
-            resolve()
+            resolve(newPath)
         })
     })
 }

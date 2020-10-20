@@ -5,7 +5,8 @@ const trimAudio = require('../helpers/trimAudio');
 const { rename, deleteFile } = require('../helpers/updateFile')
 
 async function videoDownload(req, res) {
-    const { url, startTime, duration } = req.body;
+    const { startTime, duration } = req.body;
+    const { url } = req.videoInfo
 
     try {
         const videoPath = await download(url);
