@@ -2,9 +2,7 @@ const AWS = require('aws-sdk');
 const fs = require('fs');
 const path = require('path');
 
-async function uploadToS3(filePath){
-    console.log({filePath})
-    
+async function uploadToS3(filePath){    
     const s3 = new AWS.S3();
     const uploadParams = {Bucket: 'ig-podcasts', ACL:'public-read'};
 
