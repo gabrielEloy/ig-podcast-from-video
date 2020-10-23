@@ -2,6 +2,7 @@ const download = require('../helpers/fileDownloader');
 const extractAudio = require('../helpers/audioExtracter');
 const trimAudio = require('../helpers/trimAudio');
 const uploadToS3 = require('../helpers/uploadFileToS3');
+const sendMail = require('../helpers/sendMail');
 const Queue = require('../lib/Queue');
 
 const { rename, deleteFile } = require('../helpers/updateFile')
@@ -47,8 +48,21 @@ async function queuedVideoDownload (req, res) {
     res.send({ta_na_fila: 'tá na fila'})
 }
 
+async function testEmail (req,res) {
+    const { email } = req.body;
+
+
+    try{
+        await sendMail();
+        res.send({success: true})
+    } catch (err){
+        res.send(err)
+    }
+}
+
 module.exports = {
     videoDownload,
     getVideoInfo,
-    queuedVideoDownload
+    queuedVideoDownload,
+    testEmail
 }
