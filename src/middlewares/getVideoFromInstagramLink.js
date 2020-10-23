@@ -4,7 +4,7 @@ async function getVideoFromInstagramLink(req, _, next) {
     const { url: instagramLink } = req.body
     
     const igLink = 'https://www.instagram.com/graphql/query/?';
-    const queryHash = 'eaffee8f3c9c089c9904a5915a898814'
+    const queryHash = process.env.QUERY_HASH
     const igShortCode = instagramLink.split('/')[4]
 
     const url = encodeURI(`${igLink}query_hash=${queryHash}&variables={"shortcode": "${igShortCode}"}`)

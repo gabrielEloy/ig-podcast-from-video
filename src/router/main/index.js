@@ -1,13 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const { videoDownload } = require('../../controllers/videoDownload')
+const { videoDownload, getVideoInfo, queuedVideoDownload } = require('../../controllers/videoDownload')
 const getVideoFromInstagramLink = require('../../middlewares/getVideoFromInstagramLink')
 
-router.get('/download-video', (req, res) => {
-    console.log(process.env.QUERY_HASH)
-    
-    res.send({true: true})
-})
-router.post('/download-video', getVideoFromInstagramLink, videoDownload);
 
+router.post('/video-info', getVideoFromInstagramLink, getVideoInfo);
+router.post('/download-video', getVideoFromInstagramLink, videoDownload);
+router.post('/queue-download-video', getVideoFromInstagramLink, queuedVideoDownload)
 module.exports = router;
