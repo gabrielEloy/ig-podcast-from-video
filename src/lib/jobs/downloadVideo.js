@@ -8,7 +8,7 @@ const handleSendMail = require('../../helpers/sendMail');
 module.exports = {
     key: 'DownloadVideo',
     async handle({ data }) {
-        const { url, startTime, duration } = data;
+        const { url, startTime, duration, email } = data;
 
         console.log('starting download...')
         const videoPath = await download(url);
@@ -28,7 +28,7 @@ module.exports = {
 
         console.log('sending email...')
         
-        await handleSendMail('test_mail@icloud.com', 'teste', JSON.stringify(s3Link))
+        await handleSendMail(email, 'teste', JSON.stringify(s3Link))
         console.log('Done')
     }
 }

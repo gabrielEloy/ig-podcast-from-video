@@ -41,28 +41,15 @@ async function getVideoInfo(req, res) {
 
 async function queuedVideoDownload (req, res) {
     const { url } = req.videoInfo;
-    const { startTime, duration } = req.body;
+    const { startTime, duration, email } = req.body;
     
-    Queue.add('DownloadVideo', {url, startTime, duration})
+    Queue.add('DownloadVideo', {url, startTime, duration, email})
 
-    res.send({ta_na_fila: 'tá na fila'})
-}
-
-async function testEmail (req,res) {
-    const { email } = req.body;
-
-
-    try{
-        await sendMail();
-        res.send({success: true})
-    } catch (err){
-        res.send(err)
-    }
+    res.send({message: 'Successfully put request into queue'})
 }
 
 module.exports = {
     videoDownload,
     getVideoInfo,
     queuedVideoDownload,
-    testEmail
 }
