@@ -2,7 +2,9 @@ const download = require('../helpers/fileDownloader');
 const extractAudio = require('../helpers/audioExtracter');
 const trimAudio = require('../helpers/trimAudio');
 const uploadToS3 = require('../helpers/uploadFileToS3');
-const sendMail = require('../helpers/sendMail');
+
+const { redisGet } = require('../db/redis')
+
 const Queue = require('../lib/Queue');
 
 const { rename, deleteFile } = require('../helpers/updateFile')
@@ -43,13 +45,24 @@ async function queuedVideoDownload (req, res) {
     const { url } = req.videoInfo;
     const { startTime, duration, email } = req.body;
     
-    Queue.add('DownloadVideo', {url, startTime, duration, email})
+    const fileName = new Date().getTime();
+    
+    Queue.add('DownloadVideo', {url, startTime, duration, email, fileName});
 
-    res.send({message: 'Successfully put request into queue'})
+    res.send({redis_id: fileName});
+}
+
+async function getProcessStatus(req, res){
+    const { id } = req.params;
+
+    const status = await redisGet(id, true);
+
+    res.send({status});
 }
 
 module.exports = {
     videoDownload,
     getVideoInfo,
     queuedVideoDownload,
+    getProcessStatus
 }

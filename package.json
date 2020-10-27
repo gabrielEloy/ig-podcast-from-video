@@ -6,7 +6,8 @@
   "scripts": {
     "start": "npm-run-all -p start:*",
     "start:server": "nodemon app.js",
-    "start:queue": "nodemon queue.js"
+    "start:queue": "nodemon queue.js",
+    "start:socket": "nodemon socket.js"
   },
   "dependencies": {
     "aws-sdk": "^2.774.0",
@@ -17,7 +18,9 @@
     "express": "^4.17.1",
     "ffmpeg-extract-audio": "^1.0.2",
     "fluent-ffmpeg": "^2.1.2",
-    "nodemailer": "^6.4.14"
+    "nodemailer": "^6.4.14",
+    "redis": "^3.0.2",
+    "socket.io": "^2.3.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.5",
