@@ -24,7 +24,6 @@ async function handleSendMail(toMail, subject, text) {
                 console.log(error);
                 reject(error)
             }
-            console.log(response)
             resolve(response)
         });
     })

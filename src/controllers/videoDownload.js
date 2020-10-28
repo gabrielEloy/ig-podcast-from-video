@@ -14,9 +14,7 @@ async function videoDownload(req, res) {
     const { url } = req.videoInfo
 
     try {
-        console.log('starting download...')
         const videoPath = await download(url);
-        console.log('starting audio extraction...')
         const audioPath = await extractAudio(videoPath);
 
         if (startTime || duration) {
@@ -24,8 +22,6 @@ async function videoDownload(req, res) {
             await deleteFile(audioPath)
             await rename(editedAudioPath)
         }
-        
-        console.log('Starting s3 upload...')
 
         const s3Info = await uploadToS3(audioPath);
         res.send(s3Info)

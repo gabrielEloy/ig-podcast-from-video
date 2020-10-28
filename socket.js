@@ -8,20 +8,16 @@ const server = http.createServer(app);
 
 const io = socketIO(server);
 
-io.on('connection', socket => {
-    console.log(('new client connected'))
-    socket.emit('teste', 'teste')
-    socket.emit('teste2', 'bagui é doido mermão')
-});
-
 app.post('/', (req, res) => {
     const { videoId } = req.query;
-    const { status } = req.body;
+    const { status, s3Link } = req.body;
     
-    console.log({videoId, status})
-
-    io.emit(videoId, status)
-    res.status(200).send({ok: true})
+    try {
+        io.emit(videoId, {status, s3Link})
+        res.status(200).send({ok: true})
+    } catch (err){
+        res.status(500).send({err})
+    }
 })
 
 
