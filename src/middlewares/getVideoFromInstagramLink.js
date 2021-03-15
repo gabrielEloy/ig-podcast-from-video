@@ -7,9 +7,15 @@ async function getVideoFromInstagramLink(req, _, next) {
     const queryHash = process.env.QUERY_HASH
     const igShortCode = instagramLink.split('/')[4]
 
+
     const url = encodeURI(`${igLink}query_hash=${queryHash}&variables={"shortcode": "${igShortCode}"}`)
 
-    const { data: { data: { shortcode_media: res } } } = await axios.get(url)
+    
+    const  {data: {data: {shortcode_media: res}}} = await axios.get(url, {
+        headers: {
+            ['Accept']: 'application/json'
+        }
+    })
 
     const videoInfo = {
         has_audio: res.has_audio,

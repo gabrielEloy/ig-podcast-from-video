@@ -13,10 +13,10 @@ async function videoDownload(req, res) {
 
     try {
         console.log('starting download...')
-        const videoPath = await download(url);
+        const videoPath = await download(url);        
         console.log('starting audio extraction...')
         const audioPath = await extractAudio(videoPath);
-
+        
         if (startTime || duration) {
             const editedAudioPath = await trimAudio({ filePath: audioPath, startTime, duration });
             await deleteFile(audioPath)
@@ -33,9 +33,13 @@ async function videoDownload(req, res) {
 };
 
 async function getVideoInfo(req, res) {
-    const { videoInfo } = req;
+    try {
+        const { videoInfo } = req;
 
-    res.send({videoInfo});
+        res.send({videoInfo});
+    } catch (err){
+        res.status(500).send({err});
+    }
 }
 
 
