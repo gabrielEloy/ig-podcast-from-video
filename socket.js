@@ -6,7 +6,21 @@ const app = express();
 app.use(express.json());
 const server = http.createServer(app);
 
-const io = socketIO(server);
+const io = socketIO(server, {
+    cors: {
+        origin: "*",
+        methods: ["GET", "POST"]
+      }
+});
+
+io.on('connection', socket => {
+    console.log('conectou', socket.id)
+    socket.emit('connection', {teste: true})
+    socket.on('disconnect', () => {
+        console.log('disconectou ', socket.id)
+    })
+
+});
 
 app.post('/', (req, res) => {
     const { videoId } = req.query;
