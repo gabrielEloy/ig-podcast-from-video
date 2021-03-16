@@ -1,20 +1,18 @@
-const download = require('../helpers/fileDownloader');
-const extractAudio = require('../helpers/audioExtracter');
-const trimAudio = require('../helpers/trimAudio');
-const uploadToS3 = require('../helpers/uploadFileToS3');
-const sendMail = require('../helpers/sendMail');
-const Queue = require('../lib/Queue');
+import download from '../helpers/fileDownloader'
+import extractAudio from '../helpers/audioExtracter'
+import trimAudio from '../helpers/trimAudio'
+import uploadToS3 from '../helpers/uploadFileToS3'
+import Queue from '../lib/Queue'
 
-const { rename, deleteFile } = require('../helpers/updateFile')
+import { rename, deleteFile } from '../helpers/updateFile'
+import { redisGet } from '../db/redis';
 
-async function videoDownload(req, res) {
+export async function videoDownload(req, res) {
     const { startTime, duration } = req.body;
     const { url } = req.videoInfo
 
     try {
-        console.log('starting download...')
         const videoPath = await download(url);        
-        console.log('starting audio extraction...')
         const audioPath = await extractAudio(videoPath);
         
         if (startTime || duration) {
@@ -32,7 +30,7 @@ async function videoDownload(req, res) {
     }
 };
 
-async function getVideoInfo(req, res) {
+export async function getVideoInfo(req, res) {
     try {
         const { videoInfo } = req;
 
@@ -43,17 +41,21 @@ async function getVideoInfo(req, res) {
 }
 
 
-async function queuedVideoDownload (req, res) {
+export async function queuedVideoDownload (req, res) {
     const { url } = req.videoInfo;
     const { startTime, duration, email } = req.body;
     
-    Queue.add('DownloadVideo', {url, startTime, duration, email})
+    const fileName = new Date().getTime();
+    
+    Queue.add('DownloadVideo', {url, startTime, duration, email, fileName});
 
-    res.send({message: 'Successfully put request into queue'})
+    res.send({redis_id: fileName});
 }
 
-export default {
-    videoDownload,
-    getVideoInfo,
-    queuedVideoDownload,
+export async function getProcessStatus(req, res){
+    const { id } = req.params;
+
+    const status = await redisGet(id, true);
+
+    res.send({status});
 }

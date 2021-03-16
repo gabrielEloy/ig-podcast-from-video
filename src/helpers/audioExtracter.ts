@@ -1,6 +1,6 @@
-const Path = require('path');
-const extractAudio = require('ffmpeg-extract-audio');
-const getFileNameFromPath = require('./getFileNameFromPath')
+import Path from 'path';
+import extractAudio from 'ffmpeg-extract-audio';
+import getFileNameFromPath from './getFileNameFromPath';
 
 async function getAudio(sourcePath) {
     const splittedSource = sourcePath;

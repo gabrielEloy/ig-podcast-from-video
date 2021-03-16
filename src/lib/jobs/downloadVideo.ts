@@ -1,35 +1,47 @@
+import download from '../../helpers/fileDownloader'
+import extractAudio from '../../helpers/audioExtracter';
+import trimAudio from '../../helpers/trimAudio'
+import uploadToS3 from '../../helpers/uploadFileToS3'
+import { deleteFile, rename } from '../../helpers/updateFile'
 
-const download = require('src/helpers/fileDownloader');
-const extractAudio = require('src/helpers/audioExtracter');
-const trimAudio = require('src/helpers/trimAudio');
-const uploadToS3 = require('src/helpers/uploadFileToS3');
-const handleSendMail = require('src/helpers/sendMail');
-const { rename, deleteFile } = require('../helpers/updateFile')
+import alertStatus from './sendSocketRequisition';
+import {redisSet} from '../../db/redis';
 
 export default {
-    key: 'DownloadVideo',
-    async handle({ data }) {
-        const { url, startTime, duration, email } = data;
+  key: "DownloadVideo",
+  async handle({ data }) {
+    const { url, startTime, duration, email, fileName } = data;
 
-        console.log('starting download...')
-        const videoPath = await download(url);
-        console.log('starting audio extraction...')
-        const audioPath = await extractAudio(videoPath);
+    console.log("DOWNLOADING");
+    await redisSet(fileName, { url, s3Link: "", status: "DOWNLOADING" });
+    await alertStatus(fileName, { status: "DOWNLOADING" });
 
-        if (startTime || duration) {
-            const editedAudioPath = await trimAudio({ filePath: audioPath, startTime, duration });
-            await deleteFile(audioPath)
-            await rename(editedAudioPath)
-        }
+    const videoPath = await download(url, fileName);
 
-        console.log('Starting s3 upload...')
+    console.log("EXTRACTING_AUDIO");
+    await redisSet(fileName, { status: "EXTRACTING_AUDIO" });
+    await alertStatus(fileName, { status: "EXTRACTING_AUDIO" });
 
-        const s3Link = await uploadToS3(audioPath);
+    const audioPath = await extractAudio(videoPath);
 
-
-        console.log('sending email...')
-        
-        await handleSendMail(email, 'teste', JSON.stringify(s3Link))
-        console.log('Done')
+    if (startTime || duration) {
+      const editedAudioPath = await trimAudio({
+        filePath: audioPath,
+        startTime,
+        duration,
+      });
+      await deleteFile(audioPath);
+      await rename(editedAudioPath);
     }
-}
+
+    console.log("UPLOADING_TO_S3");
+    await redisSet(fileName, { status: "UPLOADING_TO_S3" });
+    await alertStatus(fileName, { status: "UPLOADING_TO_S3" });
+
+    const s3Link = await uploadToS3(audioPath);
+
+    console.log("DONE");
+    await redisSet(fileName, { status: "DONE", s3Link: s3Link.Location });
+    await alertStatus(fileName, { status: "DONE", s3Link: s3Link.Location });
+  },
+};
