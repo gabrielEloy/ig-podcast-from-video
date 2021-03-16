@@ -1,5 +1,5 @@
 const donwloadVideo = require('./downloadVideo');
 
-module.exports = {
+export default {
     donwloadVideo,
 }

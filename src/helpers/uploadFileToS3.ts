@@ -8,7 +8,8 @@ async function uploadToS3(filePath) {
     secretAccessKey: process.env.SECRET_ACCESS_KEY,
   });
   const s3 = new AWS.S3();
-  const uploadParams = { Bucket: "ig-podcasts", ACL: "public-read" };
+  //TODO: remove any from here
+  const uploadParams:any = { Bucket: "ig-podcasts", ACL: "public-read" };
 
   const fileStream = fs.createReadStream(filePath);
 
@@ -24,4 +25,4 @@ async function uploadToS3(filePath) {
   return data;
 }
 
-module.exports = uploadToS3;
+export default uploadToS3;

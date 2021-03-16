@@ -8,4 +8,4 @@ router.post('/video-info', getVideoFromInstagramLink, getVideoInfo);
 router.post('/download-video', getVideoFromInstagramLink, videoDownload);
 router.post('/queue-download-video', getVideoFromInstagramLink, queuedVideoDownload)
 
-module.exports = router;
+export default router;

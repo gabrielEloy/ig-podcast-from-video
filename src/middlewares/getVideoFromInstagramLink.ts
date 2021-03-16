@@ -32,4 +32,4 @@ async function getVideoFromInstagramLink(req, _, next) {
     next();
 }
 
-module.exports = getVideoFromInstagramLink;
+export default  getVideoFromInstagramLink;

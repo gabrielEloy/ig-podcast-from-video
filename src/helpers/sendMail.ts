@@ -29,5 +29,4 @@ async function handleSendMail(toMail, subject, text) {
         });
     })
 }
-
-module.exports = handleSendMail;
+export default  handleSendMail;

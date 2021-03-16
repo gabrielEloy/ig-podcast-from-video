@@ -17,5 +17,5 @@ async function getAudio(sourcePath) {
     return path;
 }
 
-module.exports = getAudio;
+export default  getAudio;
 
