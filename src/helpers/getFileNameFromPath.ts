@@ -8,4 +8,4 @@ function getFileNameFromPath(filePath){
     return {file, extension}
 }
 
-module.exports = getFileNameFromPath
+export default getFileNameFromPath

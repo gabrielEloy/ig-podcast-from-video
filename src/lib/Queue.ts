@@ -3,14 +3,15 @@ const redisConfig = require('../config/redis');
 
 const jobs = require('./jobs');
 
-const queues = Object.values(jobs).map(job => ({
+//TODO: remove any
+const queues = Object.values(jobs).map((job:any) => ({
     bull: new Queue(job.key, redisConfig),
     name: job.key,
     handle: job.handle,
     options: job.options
 }))
 
-module.exports = {
+export default  {
     queues,
     add(name, data) {
         const queue = this.queues.find(queue => queue.name === name)

@@ -22,12 +22,12 @@ async function deleteFile(path) {
     new Promise((resolve, reject) => {
         fs.unlink(path, err => {
             if (err) reject(err)
-            resolve()
+            resolve(true)
         })
     })
 }
 
-module.exports = {
+export default  {
     rename,
     deleteFile
 }

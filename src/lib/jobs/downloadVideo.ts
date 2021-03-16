@@ -1,11 +1,12 @@
-const download = require('../../helpers/fileDownloader');
-const extractAudio = require('../../helpers/audioExtracter');
-const trimAudio = require('../../helpers/trimAudio');
-const uploadToS3 = require('../../helpers/uploadFileToS3');
-const handleSendMail = require('../../helpers/sendMail');
 
+const download = require('src/helpers/fileDownloader');
+const extractAudio = require('src/helpers/audioExtracter');
+const trimAudio = require('src/helpers/trimAudio');
+const uploadToS3 = require('src/helpers/uploadFileToS3');
+const handleSendMail = require('src/helpers/sendMail');
+const { rename, deleteFile } = require('../helpers/updateFile')
 
-module.exports = {
+export default {
     key: 'DownloadVideo',
     async handle({ data }) {
         const { url, startTime, duration, email } = data;

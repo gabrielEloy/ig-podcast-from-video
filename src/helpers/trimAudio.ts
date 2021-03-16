@@ -28,4 +28,4 @@ async function trimAudio({ filePath, startTime = '00:00:00', duration }) {
     })
 }
 
-module.exports = trimAudio;
+export default trimAudio;

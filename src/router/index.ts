@@ -4,4 +4,4 @@ const router = Router();
 
 router.use('/', require('./main'))
 
-module.exports = router;
+export default router;

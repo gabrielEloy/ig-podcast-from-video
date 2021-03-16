@@ -24,4 +24,4 @@ async function download(url) {
     })
 }
 
-module.exports = download;
+export default  download;

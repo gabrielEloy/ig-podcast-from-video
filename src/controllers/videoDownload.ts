@@ -52,7 +52,7 @@ async function queuedVideoDownload (req, res) {
     res.send({message: 'Successfully put request into queue'})
 }
 
-module.exports = {
+export default {
     videoDownload,
     getVideoInfo,
     queuedVideoDownload,
