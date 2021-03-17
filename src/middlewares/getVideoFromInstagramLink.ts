@@ -1,4 +1,4 @@
-const axios = require('axios');
+import axios from 'axios';
 
 async function getVideoFromInstagramLink(req, _, next) {
     const { url: instagramLink } = req.body

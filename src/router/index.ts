@@ -1,7 +1,8 @@
-const {Router} = require('express');
+import main from "./main";
+import { Router } from "express";
 
 const router = Router();
 
-router.use('/', require('./main'))
+router.use("/", main);
 
 export default router;

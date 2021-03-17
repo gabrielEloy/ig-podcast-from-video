@@ -1,9 +1,9 @@
-const Fs = require('fs')
-const Path = require('path')
-const Axios = require('axios')
+import Fs from 'fs';
+import Path from 'path';
+import Axios from 'axios';
 
-async function download(url) {
-    const path = Path.resolve(__dirname, '..','..',  'media', 'video', `${new Date().getTime()}.mp4`)
+async function download(url, fileName = new Date().getTime()) {
+    const path = Path.resolve(__dirname, '..','..',  'media', 'video', `${fileName}.mp4`)
 
     const response = await Axios({
         method: 'GET',

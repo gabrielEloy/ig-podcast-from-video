@@ -1,7 +1,7 @@
-const getFileNameFromPath = require('./getFileNameFromPath')
-const fs = require('fs')
+import getFileNameFromPath from './getFileNameFromPath'
+import fs from 'fs'
 
-async function rename(originalPath) {
+export async function rename(originalPath) {
     const { file: oldFilename, extension } = getFileNameFromPath(originalPath);
 
     const newFilename = `${oldFilename.split('_')[1]}.${extension}`;
@@ -18,16 +18,11 @@ async function rename(originalPath) {
     })
 }
 
-async function deleteFile(path) {
+export  async function deleteFile(path) {
     new Promise((resolve, reject) => {
         fs.unlink(path, err => {
             if (err) reject(err)
             resolve(true)
         })
     })
-}
-
-export default  {
-    rename,
-    deleteFile
 }

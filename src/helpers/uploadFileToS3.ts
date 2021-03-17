@@ -1,6 +1,6 @@
-const AWS = require("aws-sdk");
-const fs = require("fs");
-const path = require("path");
+import AWS from "aws-sdk";
+import fs from "fs";
+import path from "path";
 
 async function uploadToS3(filePath) {
   AWS.config.update({
@@ -9,7 +9,7 @@ async function uploadToS3(filePath) {
   });
   const s3 = new AWS.S3();
   //TODO: remove any from here
-  const uploadParams:any = { Bucket: "ig-podcasts", ACL: "public-read" };
+  const uploadParams: any = { Bucket: "ig-podcasts", ACL: "public-read" };
 
   const fileStream = fs.createReadStream(filePath);
 
@@ -21,7 +21,7 @@ async function uploadToS3(filePath) {
   uploadParams.Key = path.basename(filePath);
 
   const data = await s3.upload(uploadParams).promise();
-  console.log('terminou');
+  console.log("terminou");
   return data;
 }
 

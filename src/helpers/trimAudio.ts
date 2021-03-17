@@ -1,6 +1,6 @@
-const ffmpeg = require('fluent-ffmpeg');
-const Path = require('path')
-const getFileNameFromPath = require('./getFileNameFromPath');
+import ffmpeg from 'fluent-ffmpeg';
+import Path from 'path';
+import getFileNameFromPath from './getFileNameFromPath';
 
 
 

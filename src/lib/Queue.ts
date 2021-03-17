@@ -1,7 +1,7 @@
-const Queue = require('bull');
-const redisConfig = require('../config/redis');
+import Queue from 'bull'
+import redisConfig from '../config/redis';
 
-const jobs = require('./jobs');
+import jobs from './jobs';
 
 //TODO: remove any
 const queues = Object.values(jobs).map((job:any) => ({
